@@ -1,1 +1,22 @@
 
+# Dependencies
+node_modules/
+vendor/
+
+# Build output and tool caches
+dist/
+build/
+coverage/
+.angular/
+.cache/
+
+# Logs and local OS files
+*.log
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+!.env.example
+
