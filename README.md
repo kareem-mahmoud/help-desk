@@ -24,7 +24,19 @@
 
    Then open `http://localhost:4200/`.
 
-4. If an environment file is required, copy the example file before starting
+4. In a second terminal, start the server:
+
+   ```bash
+   cd server
+   npm run dev
+   ```
+
+   The server health endpoint is available at `http://localhost:3000/health`.
+
+   For a production-style run, build first with `npm run build`, then use
+   `npm start`.
+
+5. If an environment file is required, copy the example file before starting
    the application:
 
    ```bash
@@ -39,5 +51,5 @@
 - `server/` - backend application
 - `docs/` - project documentation
 
-> The server is not implemented yet. The current scaffold provides the Angular
-> client only.
+> The server currently provides a minimal health endpoint and is ready for
+> backend routes and dependencies to be added.
