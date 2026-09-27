@@ -5,6 +5,7 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 
 import { errorHandler } from './middleware/error-handler.js';
+import validationTestRouter from './routes/validation-test.js';
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(
 );
 app.use(morgan('dev'));
 app.use(express.json({ limit: '1mb' }));
+app.use(validationTestRouter);
 
 app.get('/health', (_request, response) => {
   const databaseStates = {
