@@ -1,9 +1,21 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+
+import { errorHandler } from './middleware/error-handler.js';
 
 const app = express();
 
-app.use(express.json());
+app.use(helmet());
+app.use(
+  cors({
+    origin: process.env.CLIENT_URL ?? 'http://localhost:4200'
+  })
+);
+app.use(morgan('dev'));
+app.use(express.json({ limit: '1mb' }));
 
 app.get('/health', (_request, response) => {
   const databaseStates = {
@@ -28,5 +40,7 @@ app.get('/health', (_request, response) => {
 app.use((_request, response) => {
   response.status(404).json({ error: 'Not found' });
 });
+
+app.use(errorHandler);
 
 export default app;
