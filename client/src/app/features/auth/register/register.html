@@ -1,0 +1,114 @@
+<main class="auth-shell">
+  <aside class="welcome-panel" aria-label="Help Desk introduction">
+    <a class="brand" routerLink="/register" aria-label="Help Desk home">
+      <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" aria-hidden="true" />
+      <span>helpdesk<span class="brand-period">.</span></span>
+    </a>
+
+    <div class="welcome-copy">
+      <span class="eyebrow">SUPPORT THAT MOVES WITH YOU</span>
+      <h1>Good help starts with a conversation.</h1>
+      <p>Create your account to keep every question, update, and solution in one place.</p>
+    </div>
+  </aside>
+
+  <section class="form-panel" aria-labelledby="register-title">
+    <div class="form-wrap">
+      <div class="mobile-brand" aria-hidden="true">
+        <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" />
+        <span>helpdesk<span class="brand-period">.</span></span>
+      </div>
+
+      <div class="form-heading">
+        <span class="eyebrow">GET STARTED — IT’S FREE</span>
+        <h2 id="register-title">Create your account</h2>
+        <p>It only takes a minute to get set up.</p>
+      </div>
+
+      @if (registrationForm().errors().length) {
+        <div class="form-alert" role="alert" aria-live="assertive">
+          {{ registrationForm().errors()[0].message }}
+        </div>
+      }
+
+      <form [formRoot]="registrationForm">
+        <div class="field-group">
+          <label for="name">Your name</label>
+          <input
+            id="name"
+            type="text"
+            [formField]="registrationForm.name"
+            autocomplete="name"
+            placeholder="e.g. Jordan Lee"
+            [attr.aria-invalid]="registrationForm.name().touched() && registrationForm.name().invalid()"
+            aria-describedby="name-error"
+          />
+          @if (registrationForm.name().touched() && registrationForm.name().errors().length) {
+            <span class="field-error" id="name-error">{{ registrationForm.name().errors()[0].message }}</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="email">Email address</label>
+          <input
+            id="email"
+            type="email"
+            [formField]="registrationForm.email"
+            autocomplete="email"
+            placeholder="you@example.com"
+            [attr.aria-invalid]="registrationForm.email().touched() && registrationForm.email().invalid()"
+            aria-describedby="email-error"
+          />
+          @if (registrationForm.email().touched() && registrationForm.email().errors().length) {
+            <span class="field-error" id="email-error">{{ registrationForm.email().errors()[0].message }}</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="password">Password</label>
+          <input
+            id="password"
+            type="password"
+            [formField]="registrationForm.password"
+            autocomplete="new-password"
+            placeholder="At least 8 characters"
+            [attr.aria-invalid]="registrationForm.password().touched() && registrationForm.password().invalid()"
+            aria-describedby="password-hint password-error"
+          />
+          <span class="field-hint" id="password-hint">Use at least 8 characters.</span>
+          @if (registrationForm.password().touched() && registrationForm.password().errors().length) {
+            <span class="field-error" id="password-error">{{ registrationForm.password().errors()[0].message }}</span>
+          }
+        </div>
+
+        <div class="field-group">
+          <label for="confirm-password">Confirm password</label>
+          <input
+            id="confirm-password"
+            type="password"
+            [formField]="registrationForm.confirmPassword"
+            autocomplete="new-password"
+            placeholder="Enter your password again"
+            [attr.aria-invalid]="registrationForm.confirmPassword().touched() && registrationForm.confirmPassword().invalid()"
+            aria-describedby="confirm-password-error"
+          />
+          @if (registrationForm.confirmPassword().touched() && registrationForm.confirmPassword().errors().length) {
+            <span class="field-error" id="confirm-password-error">{{ registrationForm.confirmPassword().errors()[0].message }}</span>
+          }
+        </div>
+
+        <button class="submit-button" type="submit" [disabled]="registrationForm().submitting()">
+          @if (registrationForm().submitting()) {
+            <span class="button-spinner" aria-hidden="true"></span>
+            Creating your account…
+          } @else {
+            Create account <span aria-hidden="true">→</span>
+          }
+        </button>
+      </form>
+
+      <p class="login-prompt">Already have an account? <a routerLink="/login">Log in</a></p>
+      <p class="privacy-note">By creating an account, you agree to keep your sign-in details private.</p>
+    </div>
+  </section>
+</main>
