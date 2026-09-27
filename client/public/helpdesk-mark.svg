@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 90 90" fill="none">
+  <defs>
+    <linearGradient id="mark-gradient" x1="20" y1="17" x2="79" y2="78" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4B28C" />
+      <stop offset="1" stop-color="#F16B3A" />
+    </linearGradient>
+  </defs>
+  <g fill="url(#mark-gradient)" transform="translate(-8 -7)">
+    <rect x="24" y="23" width="13" height="66" rx="6.5" />
+    <rect x="49" y="30" width="12" height="59" rx="6" />
+    <rect x="32" y="53" width="36" height="14" rx="7" />
+    <circle cx="75" cy="60" r="7" />
+  </g>
+</svg>
