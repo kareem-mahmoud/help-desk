@@ -7,6 +7,9 @@
     @if (justRegistered) {
       <div class="success-note" role="status">Your account has been created successfully.</div>
     }
+    @if (sessionExpired) {
+      <div class="session-note" role="status">Your session ended. Please sign in again.</div>
+    }
     <span class="eyebrow">WELCOME BACK</span>
     <h1 id="login-title">Log in</h1>
     <p>Enter your details to continue to your Help Desk workspace.</p>

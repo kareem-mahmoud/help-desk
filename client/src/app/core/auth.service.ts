@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable, catchError, finalize, map, of, shareReplay, tap, throwError } from 'rxjs';
 
 export interface SafeUser {
   id: string;
@@ -44,6 +44,8 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly apiUrl = 'http://localhost:3000/api/auth';
   private readonly session = signal<StoredAuthSession | null>(this.restoreSession());
+  private refreshInFlight: Observable<AuthSession> | null = null;
+  private sessionGeneration = 0;
 
   readonly currentUser = computed(() => this.session()?.user ?? null);
 
@@ -53,7 +55,7 @@ export class AuthService {
   }
 
   accessToken(): string | null {
-    return this.isAuthenticated() ? this.session()?.accessToken ?? null : null;
+    return this.session()?.accessToken ?? null;
   }
 
   register(payload: RegisterRequest): Observable<RegisterResponse> {
@@ -66,7 +68,66 @@ export class AuthService {
     );
   }
 
-  logout(): void {
+  refreshSession(): Observable<AuthSession> {
+    if (this.refreshInFlight) return this.refreshInFlight;
+
+    const currentSession = this.session();
+    if (!currentSession?.refreshToken) {
+      return throwError(() => new Error('No refresh token is available'));
+    }
+
+    const generation = this.sessionGeneration;
+    let request: Observable<AuthSession>;
+    request = this.http.post<AuthSession>(`${this.apiUrl}/refresh`, {
+      refreshToken: currentSession.refreshToken
+    }).pipe(
+      map((authSession) => {
+        if (
+          generation !== this.sessionGeneration ||
+          this.session()?.refreshToken !== currentSession.refreshToken
+        ) {
+          throw new Error('The authentication session has ended');
+        }
+        this.storeSession(authSession);
+        return authSession;
+      }),
+      finalize(() => {
+        if (this.refreshInFlight === request) this.refreshInFlight = null;
+      }),
+      shareReplay({ bufferSize: 1, refCount: false })
+    );
+    this.refreshInFlight = request;
+    return request;
+  }
+
+  ensureFreshSession(): Observable<boolean> {
+    const session = this.session();
+    if (!session) return of(false);
+    if (session.expiresAt > Date.now() + 5000) return of(true);
+
+    return this.refreshSession().pipe(
+      map(() => true),
+      catchError(() => {
+        this.clearSession();
+        return of(false);
+      })
+    );
+  }
+
+  logout(): Observable<void> {
+    const refreshToken = this.session()?.refreshToken;
+    this.clearSession();
+
+    if (!refreshToken) return of(void 0);
+
+    return this.http.post<void>(`${this.apiUrl}/logout`, { refreshToken }).pipe(
+      catchError(() => of(void 0))
+    );
+  }
+
+  clearSession(): void {
+    this.sessionGeneration += 1;
+    this.refreshInFlight = null;
     this.session.set(null);
     if (typeof window !== 'undefined') {
       try {
@@ -78,6 +139,7 @@ export class AuthService {
   }
 
   private storeSession(authSession: AuthSession): void {
+    this.sessionGeneration += 1;
     const storedSession: StoredAuthSession = {
       ...authSession,
       expiresAt: Date.now() + authSession.expiresIn * 1000
@@ -105,7 +167,6 @@ export class AuthService {
         typeof parsed.refreshToken === 'string' &&
         parsed.tokenType === 'Bearer' &&
         typeof parsed.expiresAt === 'number' &&
-        parsed.expiresAt > Date.now() &&
         parsed.user &&
         typeof parsed.user.id === 'string'
       ) {

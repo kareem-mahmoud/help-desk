@@ -87,6 +87,16 @@ p {
   font-size: 12px;
 }
 
+.session-note {
+  margin: -30px 0 30px;
+  padding: 11px 13px;
+  border: 1px solid rgb(244 142 98 / 30%);
+  border-radius: 12px;
+  color: #ffe0cd;
+  background: rgb(121 69 38 / 24%);
+  font-size: 12px;
+}
+
 .form-alert {
   margin: 0 0 20px;
   padding: 11px 13px;

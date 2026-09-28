@@ -45,3 +45,17 @@ export const loginValidationSchema = [
     .notEmpty()
     .withMessage('Password is required')
 ];
+
+const refreshTokenField = () =>
+  body('refreshToken')
+    .isString()
+    .withMessage('Refresh token must be a string')
+    .bail()
+    .notEmpty()
+    .withMessage('Refresh token is required')
+    .bail()
+    .isLength({ max: 200 })
+    .withMessage('Refresh token is invalid');
+
+export const refreshValidationSchema = [refreshTokenField()];
+export const logoutValidationSchema = [refreshTokenField()];
