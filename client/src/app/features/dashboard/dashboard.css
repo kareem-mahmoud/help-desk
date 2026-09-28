@@ -57,6 +57,28 @@
   color: #f79463;
 }
 
+.dashboard-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard-nav a {
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: var(--muted-ink);
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.dashboard-nav a:hover,
+.dashboard-nav a.active {
+  border-color: rgb(255 255 255 / 17%);
+  color: var(--ink);
+  background: rgb(255 255 255 / 9%);
+}
+
 .sign-out {
   padding: 10px 16px;
   border: 1px solid rgb(255 255 255 / 22%);
@@ -154,5 +176,15 @@ h1 {
 
   .workspace-card {
     padding: 17px;
+  }
+
+  .dashboard-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .dashboard-nav {
+    order: 3;
+    width: 100%;
   }
 }

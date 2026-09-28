@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import { errorHandler } from './middleware/error-handler.js';
 import validationTestRouter from './routes/validation-test.js';
 import authRouter from './routes/auth.js';
+import protectedRouter from './routes/protected.js';
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.use(morgan('dev'));
 app.use(express.json({ limit: '1mb' }));
 app.use(validationTestRouter);
 app.use('/api/auth', authRouter);
+app.use('/api/protected', protectedRouter);
 
 app.get('/health', (_request, response) => {
   const databaseStates = {

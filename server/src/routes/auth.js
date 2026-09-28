@@ -84,7 +84,7 @@ router.post('/refresh', refreshValidationSchema, validateRequest, async (request
         'refreshTokenData.$.expiresAt': nextRefreshToken.expiresAt
       }
     },
-    { new: true }
+    { returnDocument: 'after' }
   );
 
   if (!user) {
