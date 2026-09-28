@@ -11,6 +11,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService, LoginRequest } from '../../../core/auth.service';
+import { AuthLayoutComponent } from '../../../shared/layouts/auth-layout/auth-layout';
 
 interface LoginModel extends LoginRequest {}
 
@@ -21,7 +22,7 @@ interface LoginErrorResponse {
 
 @Component({
   selector: 'app-login',
-  imports: [FormField, FormRoot, RouterLink],
+  imports: [AuthLayoutComponent, FormField, FormRoot, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css'
 })

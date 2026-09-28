@@ -1,9 +1,5 @@
-<main class="login-page">
-  <section class="login-card" aria-labelledby="login-title">
-    <a class="brand" routerLink="/register" aria-label="Help Desk registration">
-      <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" aria-hidden="true" />
-      <span>helpdesk<span class="brand-period">.</span></span>
-    </a>
+<app-auth-layout>
+  <div class="login-content">
     @if (justRegistered) {
       <div class="success-note" role="status">Your account has been created successfully.</div>
     }
@@ -59,5 +55,5 @@
     </form>
 
     <p class="register-prompt">New to Help Desk? <a routerLink="/register">Create an account</a></p>
-  </section>
-</main>
+  </div>
+</app-auth-layout>
