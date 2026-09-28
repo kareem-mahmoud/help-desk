@@ -14,6 +14,7 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { AuthService, RegisterRequest } from '../../../core/auth.service';
+import { AuthLayoutComponent } from '../../../shared/layouts/auth-layout/auth-layout';
 
 interface RegistrationModel extends RegisterRequest {
   confirmPassword: string;
@@ -26,7 +27,7 @@ interface RegistrationError {
 
 @Component({
   selector: 'app-register',
-  imports: [FormField, FormRoot, RouterLink],
+  imports: [AuthLayoutComponent, FormField, FormRoot, RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css'
 })

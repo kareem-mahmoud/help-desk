@@ -1,10 +1,5 @@
-<main class="auth-shell">
-  <aside class="welcome-panel" aria-label="Help Desk introduction">
-    <a class="brand" routerLink="/register" aria-label="Help Desk home">
-      <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" aria-hidden="true" />
-      <span>helpdesk<span class="brand-period">.</span></span>
-    </a>
-
+<app-auth-layout [split]="true">
+  <aside auth-aside class="welcome-panel" aria-label="Help Desk introduction">
     <div class="welcome-copy">
       <span class="eyebrow">SUPPORT THAT MOVES WITH YOU</span>
       <h1>Good help starts with a conversation.</h1>
@@ -12,13 +7,7 @@
     </div>
   </aside>
 
-  <section class="form-panel" aria-labelledby="register-title">
-    <div class="form-wrap">
-      <div class="mobile-brand" aria-hidden="true">
-        <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" />
-        <span>helpdesk<span class="brand-period">.</span></span>
-      </div>
-
+  <section class="form-wrap" aria-labelledby="register-title">
       <div class="form-heading">
         <span class="eyebrow">GET STARTED — IT’S FREE</span>
         <h2 id="register-title">Create your account</h2>
@@ -109,6 +98,5 @@
 
       <p class="login-prompt">Already have an account? <a routerLink="/login">Log in</a></p>
       <p class="privacy-note">By creating an account, you agree to keep your sign-in details private.</p>
-    </div>
   </section>
-</main>
+</app-auth-layout>
