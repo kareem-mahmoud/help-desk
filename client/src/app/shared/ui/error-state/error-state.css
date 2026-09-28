@@ -1,0 +1,32 @@
+:host {
+  display: block;
+  color: var(--ink);
+  font-family: "Lato", ui-sans-serif, system-ui, sans-serif;
+}
+
+.error-state {
+  display: flex;
+  min-height: 120px;
+  align-items: center;
+  gap: 13px;
+  padding: 22px;
+  border: 1px solid rgb(255 133 110 / 26%);
+  border-radius: 16px;
+  background: rgb(121 45 38 / 19%);
+}
+
+.material-icons {
+  color: #ff9c91;
+  font-size: 25px;
+}
+
+strong {
+  font-size: 13px;
+}
+
+p {
+  margin: 5px 0 0;
+  color: #d2c4c1;
+  font-size: 12px;
+  line-height: 1.5;
+}

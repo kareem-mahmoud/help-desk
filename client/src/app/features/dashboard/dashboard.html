@@ -2,23 +2,67 @@
   <div class="page-heading">
     <span class="eyebrow">YOUR SUPPORT WORKSPACE</span>
     <h2 id="dashboard-title">Dashboard</h2>
-    <p>Welcome back, {{ authService.currentUser()?.name }}. Here’s your support overview.</p>
+    <p>
+      Welcome back, {{ authService.currentUser()?.name ?? 'there' }}.
+      You’re signed in as <span class="inline-role">{{ authService.currentUser()?.role }}</span>.
+    </p>
   </div>
 
-  <section class="welcome-card" aria-label="Workspace introduction">
-    <div>
-      <span class="welcome-kicker">HELP DESK</span>
-      <h3>Good help starts with a conversation.</h3>
-      <p>Keep every question, update, and solution moving in one place.</p>
-    </div>
-    <span class="material-icons welcome-icon" aria-hidden="true">forum</span>
-  </section>
+  @if (isLoading()) {
+    <app-loading-state label="Loading your dashboard…" />
+  } @else if (errorMessage()) {
+    <app-error-state [message]="errorMessage()" />
+  } @else {
+    <section class="summary-grid" aria-label="Ticket summary">
+      @for (card of summaryCards; track card.title) {
+        <article class="summary-card">
+          <div class="summary-card-heading">
+            <span>{{ card.title }}</span>
+            <span class="material-icons summary-icon" aria-hidden="true">{{ card.icon }}</span>
+          </div>
+          <strong class="summary-value">{{ card.value }}</strong>
+          <span class="summary-detail">{{ card.detail }}</span>
+        </article>
+      }
+    </section>
 
-  <section class="account-card" aria-label="Account overview">
-    <div>
-      <span class="account-label">Signed in as</span>
-      <strong>{{ authService.currentUser()?.email }}</strong>
-    </div>
-    <span class="role-pill">{{ authService.currentUser()?.role }}</span>
-  </section>
+    <section class="welcome-card" aria-label="Workspace introduction">
+      <div>
+        <span class="welcome-kicker">HELP DESK</span>
+        <h3>Good help starts with a conversation.</h3>
+        <p>Keep every question, update, and solution moving in one place.</p>
+      </div>
+      <span class="material-icons welcome-icon" aria-hidden="true">forum</span>
+    </section>
+
+    <section class="charts-grid" aria-label="Dashboard charts">
+      <article class="chart-card">
+        <div class="chart-heading">
+          <div>
+            <h3>Ticket activity</h3>
+            <p>Tickets created and resolved over time</p>
+          </div>
+          <span class="material-icons" aria-hidden="true">show_chart</span>
+        </div>
+        <div class="chart-empty" aria-label="Ticket activity chart is empty">
+          <span class="material-icons" aria-hidden="true">insert_chart_outlined</span>
+          <span>Chart data will appear here</span>
+        </div>
+      </article>
+
+      <article class="chart-card">
+        <div class="chart-heading">
+          <div>
+            <h3>Response overview</h3>
+            <p>Team response time and resolution trends</p>
+          </div>
+          <span class="material-icons" aria-hidden="true">query_stats</span>
+        </div>
+        <div class="chart-empty" aria-label="Response overview chart is empty">
+          <span class="material-icons" aria-hidden="true">insert_chart_outlined</span>
+          <span>Chart data will appear here</span>
+        </div>
+      </article>
+    </section>
+  }
 </section>
