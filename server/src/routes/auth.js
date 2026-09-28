@@ -6,9 +6,15 @@ import { toSafeUserResponse } from '../utils/user-response.js';
 import {
   createAccessToken,
   createRefreshToken,
+  hashRefreshToken,
   ACCESS_TOKEN_TTL_SECONDS_VALUE
 } from '../utils/auth-tokens.js';
-import { loginValidationSchema, registrationValidationSchema } from '../validation/auth-validation.js';
+import {
+  loginValidationSchema,
+  logoutValidationSchema,
+  refreshValidationSchema,
+  registrationValidationSchema
+} from '../validation/auth-validation.js';
 
 const router = Router();
 const BCRYPT_ROUNDS = 12;
@@ -60,6 +66,49 @@ router.post('/login', loginValidationSchema, validateRequest, async (request, re
     expiresIn: ACCESS_TOKEN_TTL_SECONDS_VALUE,
     user: toSafeUserResponse(user)
   });
+});
+
+router.post('/refresh', refreshValidationSchema, validateRequest, async (request, response) => {
+  const oldTokenHash = hashRefreshToken(request.body.refreshToken);
+  const nextRefreshToken = createRefreshToken();
+  const user = await User.findOneAndUpdate(
+    {
+      isActive: true,
+      refreshTokenData: {
+        $elemMatch: { tokenHash: oldTokenHash, expiresAt: { $gt: new Date() } }
+      }
+    },
+    {
+      $set: {
+        'refreshTokenData.$.tokenHash': nextRefreshToken.tokenHash,
+        'refreshTokenData.$.expiresAt': nextRefreshToken.expiresAt
+      }
+    },
+    { new: true }
+  );
+
+  if (!user) {
+    return response.status(401).json({ error: 'Refresh token is invalid or expired' });
+  }
+
+  return response.status(200).json({
+    accessToken: createAccessToken(user),
+    refreshToken: nextRefreshToken.token,
+    tokenType: 'Bearer',
+    expiresIn: ACCESS_TOKEN_TTL_SECONDS_VALUE,
+    user: toSafeUserResponse(user)
+  });
+});
+
+router.post('/logout', logoutValidationSchema, validateRequest, async (request, response) => {
+  const tokenHash = hashRefreshToken(request.body.refreshToken);
+
+  await User.updateOne(
+    { 'refreshTokenData.tokenHash': tokenHash },
+    { $pull: { refreshTokenData: { tokenHash } } }
+  );
+
+  return response.status(204).end();
 });
 
 export default router;

@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import { AuthService } from '../../core/auth.service';
 
 @Component({
@@ -13,7 +14,7 @@ export class DashboardComponent {
   private readonly router = inject(Router);
 
   async signOut(): Promise<void> {
-    this.authService.logout();
+    await firstValueFrom(this.authService.logout());
     await this.router.navigate(['/login']);
   }
 }

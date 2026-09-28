@@ -32,6 +32,9 @@ export class LoginComponent {
   readonly justRegistered = Boolean(
     this.router.getCurrentNavigation()?.extras.state?.['registered'] ?? history.state?.registered
   );
+  readonly sessionExpired = Boolean(
+    this.router.getCurrentNavigation()?.extras.state?.['sessionExpired'] ?? history.state?.sessionExpired
+  );
 
   readonly loginModel = signal<LoginModel>({ email: '', password: '' });
 
