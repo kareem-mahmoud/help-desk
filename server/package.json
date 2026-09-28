@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node --env-file-if-exists=../.env dist/index.js",
     "dev": "node --env-file-if-exists=../.env --watch src/index.js",
+    "seed": "node --env-file-if-exists=../.env src/seed-users.js",
     "build": "tsc",
     "typecheck": "tsc --noEmit"
   },
