@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Observable, catchError, finalize, map, of, shareReplay, tap, throwError } from 'rxjs';
 
+export type UserRole = 'customer' | 'agent' | 'admin';
+
 export interface SafeUser {
   id: string;
   name: string;
   email: string;
-  role: 'customer' | 'agent' | 'admin';
+  role: UserRole;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -52,6 +54,10 @@ export class AuthService {
   isAuthenticated(): boolean {
     const session = this.session();
     return Boolean(session?.accessToken && session.expiresAt > Date.now());
+  }
+
+  hasRole(role: UserRole): boolean {
+    return this.isAuthenticated() && this.currentUser()?.role === role;
   }
 
   accessToken(): string | null {

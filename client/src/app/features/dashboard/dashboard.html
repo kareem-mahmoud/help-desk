@@ -5,6 +5,12 @@
         <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" aria-hidden="true" />
         <span>helpdesk<span class="brand-period">.</span></span>
       </a>
+      <nav class="dashboard-nav" aria-label="Dashboard navigation">
+        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
+        @if (authService.hasRole('admin')) {
+          <a routerLink="/dashboard/admin" routerLinkActive="active">Admin</a>
+        }
+      </nav>
       <button class="sign-out" type="button" (click)="signOut()">Sign out</button>
     </header>
 

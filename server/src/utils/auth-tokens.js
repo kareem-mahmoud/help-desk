@@ -1,4 +1,4 @@
-import { createHmac, createHash, randomBytes } from 'node:crypto';
+import { createHmac, createHash, randomBytes, timingSafeEqual } from 'node:crypto';
 
 const ACCESS_TOKEN_TTL_SECONDS = 15 * 60;
 const REFRESH_TOKEN_TTL_MS = 30 * 24 * 60 * 60 * 1000;
@@ -26,6 +26,52 @@ export function createAccessToken(user) {
   const signature = createHmac('sha256', getAccessTokenSecret()).update(unsignedToken).digest('base64url');
 
   return `${unsignedToken}.${signature}`;
+}
+
+export function verifyAccessToken(token) {
+  if (typeof token !== 'string') return null;
+
+  const segments = token.split('.');
+  if (segments.length !== 3 || segments.some((segment) => !segment)) return null;
+
+  const [headerSegment, payloadSegment, signatureSegment] = segments;
+  let header;
+  let claims;
+
+  try {
+    header = JSON.parse(Buffer.from(headerSegment, 'base64url').toString('utf8'));
+    claims = JSON.parse(Buffer.from(payloadSegment, 'base64url').toString('utf8'));
+  } catch {
+    return null;
+  }
+
+  if (header?.alg !== 'HS256' || header?.typ !== 'JWT') return null;
+
+  const signingInput = `${headerSegment}.${payloadSegment}`;
+  const expectedSignature = createHmac('sha256', getAccessTokenSecret())
+    .update(signingInput)
+    .digest();
+  const receivedSignature = Buffer.from(signatureSegment, 'base64url');
+
+  if (
+    receivedSignature.length !== expectedSignature.length ||
+    !timingSafeEqual(receivedSignature, expectedSignature)
+  ) {
+    return null;
+  }
+
+  const now = Math.floor(Date.now() / 1000);
+  if (
+    typeof claims?.sub !== 'string' ||
+    !claims.sub ||
+    typeof claims.exp !== 'number' ||
+    claims.exp <= now ||
+    (typeof claims.nbf === 'number' && claims.nbf > now)
+  ) {
+    return null;
+  }
+
+  return claims;
 }
 
 export function createRefreshToken() {
