@@ -1,0 +1,15 @@
+<header class="top-header">
+  <div class="header-title">
+    <span class="eyebrow">HELP DESK WORKSPACE</span>
+    <h1>Support overview</h1>
+  </div>
+
+  <div class="header-user">
+    <div class="user-copy">
+      <strong>{{ authService.currentUser()?.name }}</strong>
+      <span>{{ authService.currentUser()?.email }}</span>
+    </div>
+    <span class="user-role">{{ authService.currentUser()?.role }}</span>
+    <button class="sign-out" type="button" (click)="signOut()">Log out</button>
+  </div>
+</header>
