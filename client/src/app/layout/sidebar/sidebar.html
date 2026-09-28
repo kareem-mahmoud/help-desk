@@ -1,0 +1,23 @@
+<aside class="sidebar" aria-label="Main navigation">
+  <a class="brand" routerLink="/dashboard" aria-label="Help Desk dashboard">
+    <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" aria-hidden="true" />
+    <span>helpdesk<span class="brand-period">.</span></span>
+  </a>
+
+  <nav class="sidebar-nav" aria-label="Workspace">
+    @for (item of navigationItems; track item.path) {
+      @if (canView(item)) {
+        <a
+          class="nav-link"
+          [routerLink]="item.path"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: item.path === '/dashboard' }"
+          ariaCurrentWhenActive="page"
+        >
+          <span class="material-icons nav-icon" aria-hidden="true">{{ item.icon }}</span>
+          <span>{{ item.label }}</span>
+        </a>
+      }
+    }
+  </nav>
+</aside>

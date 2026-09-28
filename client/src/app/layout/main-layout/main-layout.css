@@ -1,0 +1,39 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  color: var(--ink);
+  font-family: "Lato", ui-sans-serif, system-ui, sans-serif;
+}
+
+.app-layout {
+  display: grid;
+  min-height: 100vh;
+  grid-template-columns: 246px minmax(0, 1fr);
+  gap: 18px;
+  padding: 20px;
+}
+
+.main-column {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.route-content {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  .app-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .main-column {
+    gap: 14px;
+  }
+}

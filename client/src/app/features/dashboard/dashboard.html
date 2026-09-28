@@ -1,31 +1,24 @@
-<main class="dashboard-page">
-  <section class="dashboard-card" aria-labelledby="dashboard-title">
-    <header class="dashboard-header">
-      <a class="brand" routerLink="/dashboard" aria-label="Help Desk dashboard">
-        <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" aria-hidden="true" />
-        <span>helpdesk<span class="brand-period">.</span></span>
-      </a>
-      <nav class="dashboard-nav" aria-label="Dashboard navigation">
-        <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Overview</a>
-        @if (authService.hasRole('admin')) {
-          <a routerLink="/dashboard/admin" routerLinkActive="active">Admin</a>
-        }
-      </nav>
-      <button class="sign-out" type="button" (click)="signOut()">Sign out</button>
-    </header>
+<section class="dashboard-overview" aria-labelledby="dashboard-title">
+  <div class="page-heading">
+    <span class="eyebrow">YOUR SUPPORT WORKSPACE</span>
+    <h2 id="dashboard-title">Dashboard</h2>
+    <p>Welcome back, {{ authService.currentUser()?.name }}. Here’s your support overview.</p>
+  </div>
 
-    <div class="welcome-card">
-      <span class="eyebrow">YOUR SUPPORT WORKSPACE</span>
-      <h1 id="dashboard-title">Welcome, {{ authService.currentUser()?.name }}.</h1>
-      <p>You’re signed in and ready to manage your support conversations.</p>
+  <section class="welcome-card" aria-label="Workspace introduction">
+    <div>
+      <span class="welcome-kicker">HELP DESK</span>
+      <h3>Good help starts with a conversation.</h3>
+      <p>Keep every question, update, and solution moving in one place.</p>
     </div>
-
-    <section class="workspace-card" aria-label="Account overview">
-      <div>
-        <span class="workspace-label">Signed in as</span>
-        <strong>{{ authService.currentUser()?.email }}</strong>
-      </div>
-      <span class="role-pill">{{ authService.currentUser()?.role }}</span>
-    </section>
+    <span class="material-icons welcome-icon" aria-hidden="true">forum</span>
   </section>
-</main>
+
+  <section class="account-card" aria-label="Account overview">
+    <div>
+      <span class="account-label">Signed in as</span>
+      <strong>{{ authService.currentUser()?.email }}</strong>
+    </div>
+    <span class="role-pill">{{ authService.currentUser()?.role }}</span>
+  </section>
+</section>

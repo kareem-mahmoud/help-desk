@@ -1,0 +1,126 @@
+:host {
+  display: block;
+  min-width: 0;
+  color: var(--ink);
+  font-family: "Lato", ui-sans-serif, system-ui, sans-serif;
+}
+
+.top-header {
+  display: flex;
+  min-height: 84px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 22px;
+  border: 1px solid var(--glass-border);
+  border-radius: 20px;
+  background: var(--glass-surface);
+  box-shadow: var(--glass-shadow), inset 0 1px 0 rgb(255 255 255 / 12%);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+}
+
+.header-title {
+  min-width: 0;
+}
+
+.eyebrow {
+  color: #efad8a;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+}
+
+h1 {
+  margin: 5px 0 0;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -.3px;
+}
+
+.header-user {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 14px;
+}
+
+.user-copy {
+  display: grid;
+  min-width: 0;
+  gap: 4px;
+  text-align: right;
+}
+
+.user-copy strong,
+.user-copy span {
+  overflow: hidden;
+  max-width: 220px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.user-copy strong {
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.user-copy span {
+  color: var(--muted-ink);
+  font-size: 10px;
+}
+
+.user-role {
+  padding: 6px 9px;
+  border: 1px solid rgb(244 142 98 / 29%);
+  border-radius: 999px;
+  color: #f4b18b;
+  background: rgb(241 107 58 / 10%);
+  font-size: 10px;
+  text-transform: capitalize;
+}
+
+.sign-out {
+  min-height: 38px;
+  padding: 0 13px;
+  border: 1px solid rgb(255 255 255 / 20%);
+  border-radius: 10px;
+  color: var(--ink);
+  background: rgb(255 255 255 / 7%);
+  cursor: pointer;
+  font: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.sign-out:hover {
+  border-color: rgb(244 142 98 / 45%);
+  background: rgb(241 107 58 / 12%);
+}
+
+@media (max-width: 680px) {
+  .top-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .header-user {
+    width: 100%;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 460px) {
+  .top-header {
+    padding: 15px;
+  }
+
+  .user-copy span {
+    max-width: 125px;
+  }
+
+  .user-role {
+    display: none;
+  }
+}
