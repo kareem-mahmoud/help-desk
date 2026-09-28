@@ -9,7 +9,52 @@
     }
     <span class="eyebrow">WELCOME BACK</span>
     <h1 id="login-title">Log in</h1>
-    <p>Sign-in is the next step. Your Help Desk account is ready.</p>
-    <a class="back-link" routerLink="/register">Back to registration</a>
+    <p>Enter your details to continue to your Help Desk workspace.</p>
+
+    @if (loginForm().errors().length) {
+      <div class="form-alert" role="alert" aria-live="assertive">
+        {{ loginForm().errors()[0].message }}
+      </div>
+    }
+
+    <form [formRoot]="loginForm">
+      <div class="field-group">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          [formField]="loginForm.email"
+          autocomplete="email"
+          placeholder="you@example.com"
+          [attr.aria-invalid]="loginForm.email().touched() && loginForm.email().invalid()"
+          aria-describedby="email-error"
+        />
+        @if (loginForm.email().touched() && loginForm.email().errors().length) {
+          <span class="field-error" id="email-error">{{ loginForm.email().errors()[0].message }}</span>
+        }
+      </div>
+
+      <div class="field-group">
+        <label for="password">Password</label>
+        <input
+          id="password"
+          type="password"
+          [formField]="loginForm.password"
+          autocomplete="current-password"
+          placeholder="Enter your password"
+          [attr.aria-invalid]="loginForm.password().touched() && loginForm.password().invalid()"
+          aria-describedby="password-error"
+        />
+        @if (loginForm.password().touched() && loginForm.password().errors().length) {
+          <span class="field-error" id="password-error">{{ loginForm.password().errors()[0].message }}</span>
+        }
+      </div>
+
+      <button class="submit-button" type="submit" [disabled]="loginForm().submitting()">
+        {{ loginForm().submitting() ? 'Signing in…' : 'Sign in' }}
+      </button>
+    </form>
+
+    <p class="register-prompt">New to Help Desk? <a routerLink="/register">Create an account</a></p>
   </section>
 </main>

@@ -27,3 +27,21 @@ export const registrationValidationSchema = [
     .custom((password) => Buffer.byteLength(password, 'utf8') <= 72)
     .withMessage('Password must not exceed 72 bytes')
 ];
+
+export const loginValidationSchema = [
+  body('email')
+    .isString()
+    .withMessage('Email must be a string')
+    .bail()
+    .trim()
+    .isEmail()
+    .withMessage('Email must be valid')
+    .bail()
+    .customSanitizer((email) => email.toLowerCase()),
+  body('password')
+    .isString()
+    .withMessage('Password must be a string')
+    .bail()
+    .notEmpty()
+    .withMessage('Password is required')
+];

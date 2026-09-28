@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node --env-file-if-exists=src/config/.env dist/index.js",
-    "dev": "node --env-file-if-exists=src/config/.env --watch src/index.js",
+    "start": "node --env-file-if-exists=../.env dist/index.js",
+    "dev": "node --env-file-if-exists=../.env --watch src/index.js",
     "build": "tsc",
     "typecheck": "tsc --noEmit"
   },

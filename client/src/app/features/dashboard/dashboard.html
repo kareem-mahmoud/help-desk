@@ -1,0 +1,25 @@
+<main class="dashboard-page">
+  <section class="dashboard-card" aria-labelledby="dashboard-title">
+    <header class="dashboard-header">
+      <a class="brand" routerLink="/dashboard" aria-label="Help Desk dashboard">
+        <img class="brand-mark" src="/helpdesk-mark.svg?v=6" alt="" aria-hidden="true" />
+        <span>helpdesk<span class="brand-period">.</span></span>
+      </a>
+      <button class="sign-out" type="button" (click)="signOut()">Sign out</button>
+    </header>
+
+    <div class="welcome-card">
+      <span class="eyebrow">YOUR SUPPORT WORKSPACE</span>
+      <h1 id="dashboard-title">Welcome, {{ authService.currentUser()?.name }}.</h1>
+      <p>You’re signed in and ready to manage your support conversations.</p>
+    </div>
+
+    <section class="workspace-card" aria-label="Account overview">
+      <div>
+        <span class="workspace-label">Signed in as</span>
+        <strong>{{ authService.currentUser()?.email }}</strong>
+      </div>
+      <span class="role-pill">{{ authService.currentUser()?.role }}</span>
+    </section>
+  </section>
+</main>
